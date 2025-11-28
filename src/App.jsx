@@ -1,50 +1,62 @@
-import React,{useState} from "react";
-//import TaskInput from "./components/TaskInput.jsx";
-import TaskList from "./components/TaskList.jsx";
-import TaskForm from "./components/TaskForm.jsx";
-//import ProgressBar from "./components/ProgressBar.jsx";
-import ProgressTracker from "./components/ProgressTracker.jsx";
-//import { saveTasks, getTasks } from "./utils/storage.js";
-import "./App.css";
+import { useState, useEffect } from 'react';
+import Taskform from './components/Taskform';
+import TaskList from './components/Tasklist';
+import Progresstracker from './components/Progresstracker';
+import './App.css';
+
 export default function App() {
- const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = (task) => {
-    setTasks([...tasks, task]); // Add new task to the task list
+    setTasks([...tasks, task]);
   };
-
-  const toggleComplete = (index) => {
+   const toggleComplete = (index) => {
     const updatedTasks = tasks.map((task, i) =>
       i === index ? { ...task, completed: !task.completed } : task
     );
     setTasks(updatedTasks); // Update task completion status
   };
 
+  const updateTask = (updatedTask, index) => {
+    const newtask = [...tasks];
+    newtask[index] = updatedTask;
+    setTasks(newtask);
+  };
+
   const deleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks); // Remove task from the list
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
+  const clearTasks = () => {
+    setTasks([]);
   };
 
   return (
-    <div className="App">
-      <h1>TaskBuddy</h1>
+    <div className="app">
+      <header>
+        <h1>TaskMan</h1>
+        <p>Your friendly Task Manager</p>
+      </header>
 
-      <TaskForm addTask={addTask} /> 
-{tasks.map((t, i) => (
-  <p key={i}>
-    {t.task} — {t.priority} — {t.category}
-  </p>
-))}
+        <Taskform addTask={addTask} />
 
-      {/* Render TaskForm component */}
+        <TaskList 
+            tasks={tasks} 
+            toggleComplete={toggleComplete}
+            updateTask={updateTask} 
+            deleteTask={deleteTask} 
+        />
+        <Progresstracker tasks={tasks} />
 
-      <TaskList
-        tasks={tasks}
-        toggleComplete={toggleComplete}
-        deleteTask={deleteTask}
-      /> {/* Render TaskList component */}
-
-       <ProgressTracker tasks={tasks} /> {/* Render ProgressTracker component */}
+        {tasks.length > 0 && (
+          <button className="clear" onClick={clearTasks}>
+            Clear All Tasks
+          </button>
+        )}
     </div>
   );
 }

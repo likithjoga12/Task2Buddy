@@ -9,13 +9,14 @@ function TaskForm({ addTask }) {
     e.preventDefault();
 
     if (task.trim() !== "") {
+      console.log("Input value:", task); 
       // If the task is not empty, add it
     addTask({ task, priority, category, completed: false });
 
       // Reset the form
       setTask("");
       setPriority("Medium");
-      setCategory("General");
+      setCategory(" General");
     }
   };
 

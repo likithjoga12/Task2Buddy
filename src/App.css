@@ -11,6 +11,8 @@ body {
 
   background-color: #f9f9f9;
 }
+
+
 button {
   background-color: #ab1818;
   color: white;
@@ -33,7 +35,20 @@ button {
     overflow: hidden;
     margin-top: 10px;
 }
-
+#vishnu{
+    font-size: 24px;
+    font-weight: bold;
+    color: #ab1818;
+    margin-bottom: 10px;
+}
+.task-form {
+    margin-bottom: 20px;
+}
+#bns{
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
 .progress {
     height: 100%;
     background-color: #4caf50; /* Green color for the progress */
